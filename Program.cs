@@ -1,10 +1,23 @@
-﻿namespace Chess
+﻿namespace Chess;
+
+using Raylib_cs;
+
+internal class Program
 {
-    internal class Program
+    static void Main(string[] args)
     {
-        static void Main(string[] args)
+        Raylib.InitWindow(800, 480, "Chess");
+
+        while (!Raylib.WindowShouldClose())
         {
-            Console.WriteLine("Hello, World!");
+            Raylib.BeginDrawing();
+            Raylib.ClearBackground(Color.WHITE);
+
+            
+
+            Raylib.EndDrawing();
         }
+
+        Raylib.CloseWindow();
     }
 }
