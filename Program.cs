@@ -1,17 +1,36 @@
 ﻿namespace Chess;
 
 using Raylib_cs;
+using System.Numerics;
+using static Board;
 
 internal class Program
-{
+{ 
     // Colors.
-    static Color Green = Raylib.ColorFromNormalized(new System.Numerics.Vector4(0.467f, 0.600f, 0.329f, 1f));
-    static Color White = Raylib.ColorFromNormalized(new System.Numerics.Vector4(0.914f, 0.929f, 0.800f, 1f));
+    static Color Green = Raylib.ColorFromNormalized(new Vector4(0.467f, 0.600f, 0.329f, 1f));
+    static Color White = Raylib.ColorFromNormalized(new Vector4(0.914f, 0.929f, 0.800f, 1f));
     static Color Black = Color.BLACK;
+
+    static Texture2D[] textures = new Texture2D[12];
 
     static void Main()
     {
         Raylib.InitWindow(1080, 920, "Chess");
+        Board.InitPieces(); // Initializes the position.
+
+        //Textures loading
+        textures[0]  = Raylib.LoadTexture("C:\\Users\\hayda\\source\\repos\\Chess\\Pieces\\WP.png");
+        textures[1]  = Raylib.LoadTexture("C:\\Users\\hayda\\source\\repos\\Chess\\Pieces\\BP.png");
+        textures[2]  = Raylib.LoadTexture("C:\\Users\\hayda\\source\\repos\\Chess\\Pieces\\WN.png");
+        textures[3]  = Raylib.LoadTexture("C:\\Users\\hayda\\source\\repos\\Chess\\Pieces\\BN.png");
+        textures[4]  = Raylib.LoadTexture("C:\\Users\\hayda\\source\\repos\\Chess\\Pieces\\WB.png");
+        textures[5]  = Raylib.LoadTexture("C:\\Users\\hayda\\source\\repos\\Chess\\Pieces\\BB.png");
+        textures[6]  = Raylib.LoadTexture("C:\\Users\\hayda\\source\\repos\\Chess\\Pieces\\WR.png");
+        textures[7]  = Raylib.LoadTexture("C:\\Users\\hayda\\source\\repos\\Chess\\Pieces\\BR.png");
+        textures[8]  = Raylib.LoadTexture("C:\\Users\\hayda\\source\\repos\\Chess\\Pieces\\WQ.png");
+        textures[9]  = Raylib.LoadTexture("C:\\Users\\hayda\\source\\repos\\Chess\\Pieces\\BQ.png");
+        textures[10] = Raylib.LoadTexture("C:\\Users\\hayda\\source\\repos\\Chess\\Pieces\\WK.png");
+        textures[11] = Raylib.LoadTexture("C:\\Users\\hayda\\source\\repos\\Chess\\Pieces\\BK.png");
 
         // Main loop
         while (!Raylib.WindowShouldClose())
@@ -20,9 +39,14 @@ internal class Program
             Raylib.ClearBackground(Color.WHITE);
 
             DrawChessBoard();
+            DrawPieces();
 
             Raylib.EndDrawing();
         }
+
+        // Unloading textures
+        foreach(Texture2D texture in textures)
+            Raylib.UnloadTexture(texture);
 
         Raylib.CloseWindow();
     }
@@ -67,5 +91,65 @@ internal class Program
         Raylib.DrawText("f", starting_pos_x + (80 * width / 100) + width * 5, starting_pos_y + width * 7 + (85 * width / 100), 12 * width / 100, Green);
         Raylib.DrawText("g", starting_pos_x + (80 * width / 100) + width * 6, starting_pos_y + width * 7 + (85 * width / 100), 12 * width / 100, White);
         Raylib.DrawText("h", starting_pos_x + (80 * width / 100) + width * 7, starting_pos_y + width * 7 + (85 * width / 100), 12 * width / 100, Green);
+    }
+
+    static void DrawPieces()
+    {
+        UInt64[] pieces = Board.GetPiecesBB();
+
+        //Get pieces bitboards
+        string WPawns   = Convert.ToString((long)pieces[Board.White + Board.Pawns - 1], toBase: 2).PadLeft(64, '0'); 
+        string BPawns   = Convert.ToString((long)pieces[Board.Black + Board.Pawns - 1], toBase: 2).PadLeft(64, '0');
+
+        string WKnight  = Convert.ToString((long)pieces[Board.White + Board.Knights - 1], toBase: 2).PadLeft(64, '0');
+        string BKnight  = Convert.ToString((long)pieces[Board.Black + Board.Knights - 1], toBase: 2).PadLeft(64, '0');
+                                          
+        string WBishops = Convert.ToString((long)pieces[Board.White + Board.Bishops - 1], toBase: 2).PadLeft(64, '0');
+        string BBishops = Convert.ToString((long)pieces[Board.Black + Board.Bishops - 1], toBase: 2).PadLeft(64, '0');
+                                                                                   
+        string WRooks   = Convert.ToString((long)pieces[Board.White + Board.Rooks - 1],   toBase: 2).PadLeft(64, '0');
+        string BRooks   = Convert.ToString((long)pieces[Board.Black + Board.Rooks - 1],   toBase: 2).PadLeft(64, '0');
+                                          
+        string WQueen   = Convert.ToString((long)pieces[Board.White + Board.Queen - 1],   toBase: 2).PadLeft(64, '0');
+        string BQueen   = Convert.ToString((long)pieces[Board.Black + Board.Queen - 1],   toBase: 2).PadLeft(64, '0');
+                                          
+        string WKing    = Convert.ToString((long)pieces[Board.White + Board.King - 1],    toBase: 2).PadLeft(64, '0');
+        string BKing    = Convert.ToString((long)pieces[Board.Black + Board.King - 1],    toBase: 2).PadLeft(64, '0');
+
+
+        // Display the pieces depending on the bits
+        for (int i = 0; i < 64; i++)
+        {
+            if (WPawns[i] == '1')
+                Raylib.DrawTextureEx(textures[0], new(25 + (i % 8) * 100, 25 + (i / 8) * 100), 0f, 0.3f, Color.WHITE);
+            else if (BPawns[i] == '1')
+                Raylib.DrawTextureEx(textures[1], new(25 + (i % 8) * 100, 25 + (i / 8) * 100), 0f, 0.3f, Color.WHITE);
+
+            else if (WKnight[i] == '1')
+                Raylib.DrawTextureEx(textures[2], new(25 + (i % 8) * 100, 25 + (i / 8) * 100), 0f, 0.3f, Color.WHITE);
+            else if (BKnight[i] == '1')
+                Raylib.DrawTextureEx(textures[3], new(25 + (i % 8) * 100, 25 + (i / 8) * 100), 0f, 0.3f, Color.WHITE);
+
+            else if (WBishops[i] == '1')
+                Raylib.DrawTextureEx(textures[4], new(25 + (i % 8) * 100, 25 + (i / 8) * 100), 0f, 0.3f, Color.WHITE);
+            else if (BBishops[i] == '1')
+                Raylib.DrawTextureEx(textures[5], new(25 + (i % 8) * 100, 25 + (i / 8) * 100), 0f, 0.3f, Color.WHITE);
+
+            else if (WRooks[i] == '1')
+                Raylib.DrawTextureEx(textures[6], new(25 + (i % 8) * 100, 25 + (i / 8) * 100), 0f, 0.3f, Color.WHITE);
+            else if (BRooks[i] == '1')
+                Raylib.DrawTextureEx(textures[7], new(25 + (i % 8) * 100, 25 + (i / 8) * 100), 0f, 0.3f, Color.WHITE);
+
+            else if (WQueen[i] == '1')
+                Raylib.DrawTextureEx(textures[8], new(25 + (i % 8) * 100, 25 + (i / 8) * 100), 0f, 0.3f, Color.WHITE);
+            else if (BQueen[i] == '1')
+                Raylib.DrawTextureEx(textures[9], new(25 + (i % 8) * 100, 25 + (i / 8) * 100), 0f, 0.3f, Color.WHITE);
+
+            else if (WKing[i] == '1')
+                Raylib.DrawTextureEx(textures[10], new(25 + (i % 8) * 100, 25 + (i / 8) * 100), 0f, 0.3f, Color.WHITE);
+            else if (BKing[i] == '1')
+                Raylib.DrawTextureEx(textures[11], new(25 + (i % 8) * 100, 25 + (i / 8) * 100), 0f, 0.3f, Color.WHITE);
+        }
+
     }
 }
