@@ -1,5 +1,7 @@
 ﻿// https://www.chessprogramming.org/Bitboard_Board-Definition
 
+using System.Data;
+
 namespace Chess;
 
 // This class has the logic to represent the board and the pieces, as well as methods.
@@ -46,6 +48,10 @@ internal class Board
     internal static int Queen = 5;
     internal static int King = 6;
 
+    internal static UInt64 board = 0; // Keeps tracking the position of all the pieces.
+    internal static UInt64 WhitePieces = 0; // Keeps tracking the position of all the white pieces.
+    internal static UInt64 BlackPieces = 0; // Keeps tracking the position of all the black pieces.
+
 
     // Initializing the array: (A piece on the square is represented by 1)
     public static void InitPieces()
@@ -63,9 +69,42 @@ internal class Board
         piecesBB[Black + Queen   - 1]   = 0b_00010000_00000000_00000000_00000000_00000000_00000000_00000000_00000000;
         piecesBB[Black + King    - 1]   = 0b_00001000_00000000_00000000_00000000_00000000_00000000_00000000_00000000;
 
+        UpdatePosition();
     }
 
     public static UInt64[] GetPiecesBB()
         => piecesBB;    
+
+    //Updates the position of all the pieces.
+    public static void UpdatePosition()
+    {
+        UpdateBlackPosition();
+        UpdateWhitePosition();
+
+        foreach (UInt64 piece in piecesBB)
+            board |= piece;
+    }
+
+    // Updates the position of all the black pieces.
+    private static void UpdateBlackPosition()
+    {
+        BlackPieces |=  piecesBB[Black + Pawns   - 1];
+        BlackPieces |=  piecesBB[Black + Knights - 1];
+        BlackPieces |=  piecesBB[Black + Bishops - 1];
+        BlackPieces |=  piecesBB[Black + Rooks   - 1];
+        BlackPieces |=  piecesBB[Black + Queen   - 1];
+        BlackPieces |=  piecesBB[Black + King    - 1];
+    }
+
+    // Updates the position of all the white pieces.
+    private static void UpdateWhitePosition()
+    {
+        WhitePieces |= piecesBB[White + Pawns   - 1];
+        WhitePieces |= piecesBB[White + Knights - 1];
+        WhitePieces |= piecesBB[White + Bishops - 1];
+        WhitePieces |= piecesBB[White + Rooks   - 1];
+        WhitePieces |= piecesBB[White + Queen   - 1];
+        WhitePieces |= piecesBB[White + King    - 1];
+    }
 
 }
