@@ -80,14 +80,14 @@ internal class Program
                     Raylib.DrawRectangle(starting_pos_x + i * width, starting_pos_y + j * width, width, width, White);
 
         // Drawing the ranks numbers.
-        Raylib.DrawText("1", starting_pos_x + (4 * ratio), starting_pos_y + (4 * ratio),             12 * ratio, Green);
-        Raylib.DrawText("2", starting_pos_x + (4 * ratio), starting_pos_y + (4 * ratio) + width,     12 * ratio, White);
-        Raylib.DrawText("3", starting_pos_x + (4 * ratio), starting_pos_y + (4 * ratio) + width * 2, 12 * ratio, Green);
-        Raylib.DrawText("4", starting_pos_x + (4 * ratio), starting_pos_y + (4 * ratio) + width * 3, 12 * ratio, White);
-        Raylib.DrawText("5", starting_pos_x + (4 * ratio), starting_pos_y + (4 * ratio) + width * 4, 12 * ratio, Green);
-        Raylib.DrawText("6", starting_pos_x + (4 * ratio), starting_pos_y + (4 * ratio) + width * 5, 12 * ratio, White);
-        Raylib.DrawText("7", starting_pos_x + (4 * ratio), starting_pos_y + (4 * ratio) + width * 6, 12 * ratio, Green);
-        Raylib.DrawText("8", starting_pos_x + (4 * ratio), starting_pos_y + (4 * ratio) + width * 7, 12 * ratio, White);
+        Raylib.DrawText("8", starting_pos_x + (4 * ratio), starting_pos_y + (4 * ratio),             12 * ratio, Green);
+        Raylib.DrawText("7", starting_pos_x + (4 * ratio), starting_pos_y + (4 * ratio) + width,     12 * ratio, White);
+        Raylib.DrawText("6", starting_pos_x + (4 * ratio), starting_pos_y + (4 * ratio) + width * 2, 12 * ratio, Green);
+        Raylib.DrawText("5", starting_pos_x + (4 * ratio), starting_pos_y + (4 * ratio) + width * 3, 12 * ratio, White);
+        Raylib.DrawText("4", starting_pos_x + (4 * ratio), starting_pos_y + (4 * ratio) + width * 4, 12 * ratio, Green);
+        Raylib.DrawText("3", starting_pos_x + (4 * ratio), starting_pos_y + (4 * ratio) + width * 5, 12 * ratio, White);
+        Raylib.DrawText("2", starting_pos_x + (4 * ratio), starting_pos_y + (4 * ratio) + width * 6, 12 * ratio, Green);
+        Raylib.DrawText("1", starting_pos_x + (4 * ratio), starting_pos_y + (4 * ratio) + width * 7, 12 * ratio, White);
 
         // Drawing the files letters.
         Raylib.DrawText("a", starting_pos_x + (80 * ratio),             starting_pos_y + width * 7 + (85 * ratio), 12 * ratio, White);
