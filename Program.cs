@@ -55,6 +55,9 @@ internal class Program
             DrawChessBoard();
             DrawPieces();
 
+            if (Raylib.IsMouseButtonPressed(0))
+                MouseButtonPressed();
+
             Raylib.EndDrawing();
         }
 
@@ -104,27 +107,24 @@ internal class Program
     {
         UInt64[] pieces = Board.GetPiecesBB();
 
-        // Repeated variables
-        int bits = 64;
-
         //Get pieces bitboards
-        string WPawns   = Convert.ToString((long)pieces[Board.White + Board.Pawns - 1],   toBase: 2).PadLeft(bits, off); 
-        string BPawns   = Convert.ToString((long)pieces[Board.Black + Board.Pawns - 1],   toBase: 2).PadLeft(bits, off);
+        string WPawns   = CvrtString(pieces[Board.White + Board.Pawns - 1]); 
+        string BPawns   = CvrtString(pieces[Board.Black + Board.Pawns - 1]);
                                                                                                               
-        string WKnight  = Convert.ToString((long)pieces[Board.White + Board.Knights - 1], toBase: 2).PadLeft(bits, off);
-        string BKnight  = Convert.ToString((long)pieces[Board.Black + Board.Knights - 1], toBase: 2).PadLeft(bits, off);
+        string WKnight  = CvrtString(pieces[Board.White + Board.Knights - 1]);
+        string BKnight  = CvrtString(pieces[Board.Black + Board.Knights - 1]);
                                                                                                               
-        string WBishops = Convert.ToString((long)pieces[Board.White + Board.Bishops - 1], toBase: 2).PadLeft(bits, off);
-        string BBishops = Convert.ToString((long)pieces[Board.Black + Board.Bishops - 1], toBase: 2).PadLeft(bits, off);
+        string WBishops = CvrtString(pieces[Board.White + Board.Bishops - 1]);
+        string BBishops = CvrtString(pieces[Board.Black + Board.Bishops - 1]);
                                                                                                                
-        string WRooks   = Convert.ToString((long)pieces[Board.White + Board.Rooks - 1],   toBase: 2).PadLeft(bits, off);
-        string BRooks   = Convert.ToString((long)pieces[Board.Black + Board.Rooks - 1],   toBase: 2).PadLeft(bits, off);
+        string WRooks   = CvrtString(pieces[Board.White + Board.Rooks - 1]);
+        string BRooks   = CvrtString(pieces[Board.Black + Board.Rooks - 1]);
                                                                                                                
-        string WQueen   = Convert.ToString((long)pieces[Board.White + Board.Queen - 1],   toBase: 2).PadLeft(bits, off);
-        string BQueen   = Convert.ToString((long)pieces[Board.Black + Board.Queen - 1],   toBase: 2).PadLeft(bits, off);
+        string WQueen   = CvrtString(pieces[Board.White + Board.Queen - 1]);
+        string BQueen   = CvrtString(pieces[Board.Black + Board.Queen - 1]);
                                                                                                                
-        string WKing    = Convert.ToString((long)pieces[Board.White + Board.King - 1],    toBase: 2).PadLeft(bits, off);
-        string BKing    = Convert.ToString((long)pieces[Board.Black + Board.King - 1],    toBase: 2).PadLeft(bits, off);
+        string WKing    = CvrtString(pieces[Board.White + Board.King - 1]);
+        string BKing    = CvrtString(pieces[Board.Black + Board.King - 1]);
 
 
         // Display the pieces depending on the bits
@@ -187,6 +187,14 @@ internal class Program
                 Raylib.DrawTextureEx(textures[11], new(starting_pos_x + mod * width + (10 * ratio), 
                     starting_pos_y + div * width), rotation, scale * ratio, color);
         }
+
+        // Convert UInt64 to a string of bits
+        static string CvrtString(UInt64 piece)
+            => Convert.ToString((long)piece, toBase: 2).PadLeft(64, off);
+    }
+
+    static void MouseButtonPressed()
+    {
 
     }
 }

@@ -39,14 +39,14 @@ internal class Board
     // wp: 1, wn : 2, wb : 3, wr : 4, wq : 5, wk : 6     } -1 for the index
     // bp: 7, bn : 8, bb : 9, br : 10, bq : 11, bk : 12  } -1 for the index
 
-    internal static int White = 0;
-    internal static int Black = 6;
-    internal static int Pawns = 1;
-    internal static int Knights = 2;
-    internal static int Bishops = 3;
-    internal static int Rooks = 4;
-    internal static int Queen = 5;
-    internal static int King = 6;
+    internal static short White = 0;
+    internal static short Black = 6;
+    internal static short Pawns = 1;
+    internal static short Knights = 2;
+    internal static short Bishops = 3;
+    internal static short Rooks = 4;
+    internal static short Queen = 5;
+    internal static short King = 6;
 
     internal static UInt64 board = 0; // Keeps tracking the position of all the pieces.
     internal static UInt64 WhitePieces = 0; // Keeps tracking the position of all the white pieces.
