@@ -19,7 +19,7 @@ internal class Program
 
     // The width of the square
     static int width = 100;
-    readonly static int ratio = width / 100;
+    static int ratio = width / 100;
 
     // Repeated vairables
     readonly static char on  = '1';
@@ -45,6 +45,7 @@ internal class Program
         textures[9]  = Raylib.LoadTexture("C:\\Users\\hayda\\source\\repos\\Chess\\Pieces\\BQ.png");
         textures[10] = Raylib.LoadTexture("C:\\Users\\hayda\\source\\repos\\Chess\\Pieces\\WK.png");
         textures[11] = Raylib.LoadTexture("C:\\Users\\hayda\\source\\repos\\Chess\\Pieces\\BK.png");
+        
 
         // Main loop
         while (!Raylib.WindowShouldClose())
@@ -57,6 +58,10 @@ internal class Program
 
             if (Raylib.IsMouseButtonPressed(0))
                 MouseButtonPressed();
+            else if (Raylib.IsKeyPressed(KeyboardKey.KEY_EQUAL))
+                UpdateWidth(10);
+            else if (Raylib.IsKeyPressed(KeyboardKey.KEY_MINUS))
+                UpdateWidth(-10);
 
             Raylib.EndDrawing();
         }
@@ -135,57 +140,57 @@ internal class Program
             int mod = i % 8;
 
             float rotation = 0f;
-            float scale = 0.3f;
+            float scale = 0.3f * ratio;
 
             Color color = Color.WHITE;
 
             //Pawns
             if (WPawns[i] == on)
                 Raylib.DrawTextureEx(textures[0], new(starting_pos_x + mod * width - (17 * ratio), 
-                    starting_pos_y + div * width + (10 * ratio)), rotation, scale * ratio, color);
+                    starting_pos_y + div * width + (10 * ratio)), rotation, scale, color);
             else if (BPawns[i] == on)
                 Raylib.DrawTextureEx(textures[1], new(starting_pos_x + mod * width - (17 * ratio), 
-                    starting_pos_y + div * width), rotation, scale * ratio, color);
+                    starting_pos_y + div * width), rotation, scale, color);
 
             //Knights
             else if (WKnight[i] == on)
                 Raylib.DrawTextureEx(textures[2], new(starting_pos_x + mod * width - (10 * ratio), 
-                    starting_pos_y + div * width + (10 * ratio)), rotation, scale * ratio, color);
+                    starting_pos_y + div * width + (10 * ratio)), rotation, scale, color);
             else if (BKnight[i] == on)
                 Raylib.DrawTextureEx(textures[3], new(starting_pos_x + mod * width - (10 * ratio), 
-                    starting_pos_y + div * width), rotation, scale * ratio, color);
+                    starting_pos_y + div * width), rotation, scale, color);
 
             //Bishops
             else if (WBishops[i] == on)
                 Raylib.DrawTextureEx(textures[4], new(starting_pos_x + mod * width, 
-                    starting_pos_y + div * width + (10 * ratio)), rotation, scale * ratio, color);
+                    starting_pos_y + div * width + (10 * ratio)), rotation, scale, color);
             else if (BBishops[i] == on)
                 Raylib.DrawTextureEx(textures[5], new(starting_pos_x + mod * width, 
-                    starting_pos_y + div * width), rotation, scale * ratio, color);
+                    starting_pos_y + div * width), rotation, scale, color);
 
             //Rooks
             else if (WRooks[i] == on)
                 Raylib.DrawTextureEx(textures[6], new(starting_pos_x + mod * width - (10 * ratio), 
-                    starting_pos_y + div * width + (10 * ratio)), rotation, scale * ratio, color);
+                    starting_pos_y + div * width + (10 * ratio)), rotation, scale, color);
             else if (BRooks[i] == on)
                 Raylib.DrawTextureEx(textures[7], new(starting_pos_x + mod * width - (10 * ratio), 
-                    starting_pos_y + div * width), rotation, scale * ratio, color);
+                    starting_pos_y + div * width), rotation, scale, color);
 
             //Queens
             else if (WQueen[i] == on)
                 Raylib.DrawTextureEx(textures[8], new(starting_pos_x + mod * width + (6 * ratio), 
-                    starting_pos_y + div * width + (10 * ratio)), rotation, scale * ratio, color);
+                    starting_pos_y + div * width + (10 * ratio)), rotation, scale, color);
             else if (BQueen[i] == on)
                 Raylib.DrawTextureEx(textures[9], new(starting_pos_x + mod * width + (6 * ratio), 
-                    starting_pos_y + div * width), rotation, scale * ratio, color);
+                    starting_pos_y + div * width), rotation, scale, color);
 
             //Kings
             else if (WKing[i] == on)
                 Raylib.DrawTextureEx(textures[10], new(starting_pos_x + mod * width + (10 * ratio), 
-                    starting_pos_y + div * width + (10 * ratio)), rotation, scale * ratio, color);
+                    starting_pos_y + div * width + (10 * ratio)), rotation, scale, color);
             else if (BKing[i] == on)
                 Raylib.DrawTextureEx(textures[11], new(starting_pos_x + mod * width + (10 * ratio), 
-                    starting_pos_y + div * width), rotation, scale * ratio, color);
+                    starting_pos_y + div * width), rotation, scale, color);
         }
 
         // Convert UInt64 to a string of bits
@@ -196,5 +201,11 @@ internal class Program
     static void MouseButtonPressed()
     {
 
+    }
+
+    static void UpdateWidth(int number)
+    {
+        width += number;
+        ratio = width / 100;
     }
 }
