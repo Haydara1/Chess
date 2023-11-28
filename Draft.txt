@@ -1,0 +1,13 @@
+﻿# Solving the pawn movement displaying problem:
+
+The clicked pawn:
+00000000_00000000_00000000_00000000_00000000_00000000_01000000_00000000
+The Displayed movements:
+00000000_00000000_00000000_00000000_00000010_00000010_00000000_00000000
+The correct movement:
+00000000_00000000_00000000_00000000_01000000_01000000_00000000_00000000
+
+After the displaying test, aparently the pawn position that I am getting is wrong.
+Time to fix that.
+
+problem fixed.
