@@ -11,6 +11,8 @@ internal class Program
     // Colors.
     static Color Green = Raylib.ColorFromNormalized(new Vector4(0.467f, 0.600f, 0.329f, 1f));
     static Color White = Raylib.ColorFromNormalized(new Vector4(0.914f, 0.929f, 0.800f, 1f));
+    static Color Gray  = Raylib.ColorFromNormalized(new Vector4(0.216f, 0.212f, 0.204f, 0.5f));
+    static Color Background  = Raylib.ColorFromNormalized(new Vector4(0.216f, 0.212f, 0.204f, 1f));
     static Color Black = Color.BLACK;
 
     // Making the starting position as a variable to gain the ability to shift the board
@@ -26,6 +28,9 @@ internal class Program
     readonly static char off = '0';
 
     static Texture2D[] textures = new Texture2D[12];
+
+    // The variable to display the possible movements
+    static UInt64 PossibleMovements = 0;
 
     static void Main()
     {
@@ -51,10 +56,12 @@ internal class Program
         while (!Raylib.WindowShouldClose())
         {
             Raylib.BeginDrawing();
-            Raylib.ClearBackground(Color.WHITE);
+            Raylib.ClearBackground(Background);
 
+            // Drawing functions
             DrawChessBoard();
             DrawPieces();
+            DrawPossibleMovements();
 
             if (Raylib.IsMouseButtonPressed(0))
                 MouseButtonPressed();
@@ -198,9 +205,44 @@ internal class Program
             => Convert.ToString((long)piece, toBase: 2).PadLeft(64, off);
     }
 
+    static void DrawPossibleMovements()
+    {
+        if (PossibleMovements == 0)
+            return;
+
+        string possible_movements = Convert.ToString((long)PossibleMovements, toBase: 2).PadLeft(64, off);
+
+        // Display them as circles
+        for (int i = 0; i < 64; i++)
+            if (possible_movements[i] == on)
+                Raylib.DrawCircle(starting_pos_x + (i % 8) * width + width / 2,
+                                  starting_pos_y + (i / 8) * width + width / 2,
+                                  20, Gray);
+    }
+
     static void MouseButtonPressed()
     {
+        Vector2 MousePos = Raylib.GetMousePosition();
 
+        // Check whether the mouse is in the board
+        if (!(MousePos.X >= starting_pos_x &&
+            MousePos.X <= starting_pos_x + 8 * width &&
+            MousePos.Y >= starting_pos_y &&
+            MousePos.Y <= starting_pos_y + 8 * width))
+            return;
+
+        // Normalize the vector
+        MousePos.X = Convert.ToInt32(Math.Floor((MousePos.X - starting_pos_x) / width));
+        MousePos.Y = Convert.ToInt32(Math.Floor((MousePos.Y - starting_pos_y) / width));
+
+        // Get the piece index
+        int index = MailboxBoard[(int)MousePos.Y * 8 + (int)MousePos.X];
+
+        // Get the piece position in binary
+        UInt64 PiecePos = SetwiseFunctions.rank[Convert.ToString((int)MousePos.Y + 1)[0]] 
+                        & SetwiseFunctions.file[Convert.ToString((int)MousePos.X + 1)[0]];
+        
+        PossibleMovements = GetPossibleMoves(PiecePos, index);
     }
 
     static void UpdateWidth(int number)
