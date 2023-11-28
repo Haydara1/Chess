@@ -31,7 +31,7 @@ internal class Board
 
     #endregion
 
-    // ---> Here we can dense the board to avoid repetitions:
+    // ---> Here we can densify the board to avoid repetitions:
 
     public static UInt64[] piecesBB = new UInt64[12];
 
@@ -51,6 +51,19 @@ internal class Board
     internal static UInt64 board = 0; // Keeps tracking the position of all the pieces.
     internal static UInt64 WhitePieces = 0; // Keeps tracking the position of all the white pieces.
     internal static UInt64 BlackPieces = 0; // Keeps tracking the position of all the black pieces.
+
+    // Track the board with an array too:
+    internal static int[] MailboxBoard = new int[]
+    {
+        Black + Rooks, Black + Knights, Black + Bishops, Black + Queen, Black + King, Black + Bishops, Black + Knights, Black + Rooks,
+        Black + Pawns, Black + Pawns, Black + Pawns, Black + Pawns, Black + Pawns, Black + Pawns, Black + Pawns, Black + Pawns,
+        0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0,
+        White + Pawns, White + Pawns, White + Pawns, White + Pawns, White + Pawns, White + Pawns, White + Pawns, White + Pawns,
+        White + Rooks, White + Knights, White + Bishops, White + Queen, White + King, White + Bishops, White + Knights, White + Rooks,
+    };
 
 
     // Initializing the array: (A piece on the square is represented by 1)
@@ -105,6 +118,25 @@ internal class Board
         WhitePieces |= piecesBB[White + Rooks   - 1];
         WhitePieces |= piecesBB[White + Queen   - 1];
         WhitePieces |= piecesBB[White + King    - 1];
+    }
+
+    public static UInt64 GetPossibleMoves(UInt64 piece, int index)
+    {
+        switch (index)
+        {
+            // White pawn
+            case 1:
+                return PawnsFunctions.GetWPawnsMovement(piece);
+
+            // Black pawn
+            case 7:
+                return PawnsFunctions.GetBPawnsMovement(piece);
+
+            default:
+                break;
+        }
+
+        return 0;
     }
 
 }
