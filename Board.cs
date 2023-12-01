@@ -1,7 +1,5 @@
 ﻿// https://www.chessprogramming.org/Bitboard_Board-Definition
 
-using System.Data;
-
 namespace Chess;
 
 // This class has the logic to represent the board and the pieces, as well as methods.
