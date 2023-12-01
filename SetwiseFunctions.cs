@@ -39,6 +39,14 @@ internal static class SetwiseFunctions
     public static UInt64 SouthOne(UInt64 x) 
         => x >> 8;
 
+    // Shifts the bits one position to the west.
+    public static UInt64 WestOne(UInt64 x)
+        => x << 1;
+
+    // Shifts the bits one position to the east.
+    public static UInt64 EastOne(UInt64 x)
+        => x >> 1;
+
     // Gets the empty squares, doesn't work if the position wasn't updated.
     public static UInt64 GetEmptySquares()
         => ~Board.board;
