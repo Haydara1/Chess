@@ -1,5 +1,7 @@
 ﻿namespace Chess;
 
+// https://www.chessprogramming.org/Pawn_Pattern_and_Properties
+
 using static SetwiseFunctions;
 
 internal class PawnsFunctions
