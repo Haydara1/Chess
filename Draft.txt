@@ -11,3 +11,7 @@ After the displaying test, aparently the pawn position that I am getting is wron
 Time to fix that.
 
 problem fixed.
+
+- So now the board class has the bitboard and the mailbox representation methods.
+The mailbox will be useful for making movements.
+The bitboard is useful for calculating those movements.
