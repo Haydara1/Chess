@@ -132,6 +132,14 @@ internal class Board
             case 7:
                 return PawnsFunctions.GetBPawnsMovement(piece);
 
+            // White knight
+            case 2:
+                return KnightsFunctions.GetKnightMovements(piece);
+
+            // Black knight
+            case 8:
+                return KnightsFunctions.GetKnightMovements(piece);
+
             default:
                 break;
         }
