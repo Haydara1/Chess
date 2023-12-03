@@ -1,5 +1,7 @@
 ﻿namespace Chess;
 
+// https://www.chessprogramming.org/King_Pattern
+
 using static SetwiseFunctions;
 
 internal class KingsFunctions
