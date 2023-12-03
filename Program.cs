@@ -32,11 +32,18 @@ internal class Program
     // The variable to display the possible movements
     static UInt64 PossibleMovements = 0;
 
+    // Track the last pressed position and piece
+    static UInt64 LastPos = 0;
+    static int LastPiece = 0;
+    static int LastIndex = 0;
+
     static void Main()
     {
         Raylib.InitWindow(1080, 920, "Chess");
         Board.InitPieces(); // Initializes the position.
 
+        Console.Title = "Chess console";
+        
         //Textures loading
         textures[0]  = Raylib.LoadTexture("C:\\Users\\hayda\\source\\repos\\Chess\\Pieces\\WP.png");
         textures[1]  = Raylib.LoadTexture("C:\\Users\\hayda\\source\\repos\\Chess\\Pieces\\BP.png");
@@ -50,7 +57,8 @@ internal class Program
         textures[9]  = Raylib.LoadTexture("C:\\Users\\hayda\\source\\repos\\Chess\\Pieces\\BQ.png");
         textures[10] = Raylib.LoadTexture("C:\\Users\\hayda\\source\\repos\\Chess\\Pieces\\WK.png");
         textures[11] = Raylib.LoadTexture("C:\\Users\\hayda\\source\\repos\\Chess\\Pieces\\BK.png");
-        
+
+        Console.Clear();
 
         // Main loop
         while (!Raylib.WindowShouldClose())
@@ -241,7 +249,19 @@ internal class Program
         // Get the piece position in binary
         UInt64 PiecePos = SetwiseFunctions.rank[Convert.ToString((int)MousePos.Y + 1)[0]] 
                         & SetwiseFunctions.file[Convert.ToString((int)MousePos.X + 1)[0]];
-        
+
+        // Check if the pressed square has a possible movement for the last pressed piece.
+        if ((PossibleMovements & PiecePos) != 0)
+        {
+            MovePiece(PiecePos, LastPiece, (int)MousePos.Y * 8 + (int)MousePos.X);
+            PossibleMovements = 0;
+            return;
+        }
+
+        LastIndex = (int)MousePos.Y * 8 + (int)MousePos.X;
+        LastPos = PiecePos;
+        LastPiece = index;
+
         PossibleMovements = GetPossibleMoves(PiecePos, index);
     }
 
@@ -249,5 +269,15 @@ internal class Program
     {
         width += number;
         ratio = width / 100;
+    }
+
+    static void MovePiece(UInt64 pos, int piece_index, int index)
+    {   
+        // Update the mailbox array
+        MailboxBoard[index] = piece_index;
+        MailboxBoard[LastIndex] = 0;
+
+        // Update the bitboards
+        UpdatePiecePosition(pos, LastPos, piece_index);
     }
 }

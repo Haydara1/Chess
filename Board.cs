@@ -1,5 +1,7 @@
 ﻿// https://www.chessprogramming.org/Bitboard_Board-Definition
 
+using System;
+
 namespace Chess;
 
 // This class has the logic to represent the board and the pieces, as well as methods.
@@ -89,16 +91,19 @@ internal class Board
     //Updates the position of all the pieces.
     public static void UpdatePosition()
     {
+        board = 0;
+
         UpdateBlackPosition();
         UpdateWhitePosition();
 
-        foreach (UInt64 piece in piecesBB)
-            board |= piece;
+        board |= BlackPieces | WhitePieces;
     }
 
     // Updates the position of all the black pieces.
     private static void UpdateBlackPosition()
     {
+        BlackPieces = 0;
+
         BlackPieces |=  piecesBB[Black + Pawns   - 1];
         BlackPieces |=  piecesBB[Black + Knights - 1];
         BlackPieces |=  piecesBB[Black + Bishops - 1];
@@ -110,6 +115,8 @@ internal class Board
     // Updates the position of all the white pieces.
     private static void UpdateWhitePosition()
     {
+        WhitePieces = 0;
+
         WhitePieces |= piecesBB[White + Pawns   - 1];
         WhitePieces |= piecesBB[White + Knights - 1];
         WhitePieces |= piecesBB[White + Bishops - 1];
@@ -134,15 +141,33 @@ internal class Board
             case 2:
                 return KnightsFunctions.GetKnightMovements(piece);
 
+            // White king
+            case 6:
+                return KingsFunctions.GetKingMovements(piece);
+
             // Black knight
             case 8:
                 return KnightsFunctions.GetKnightMovements(piece);
+
+            // Black king
+            case 12:
+                return KingsFunctions.GetKingMovements(piece);
 
             default:
                 break;
         }
 
         return 0;
+    }
+
+    public static void UpdatePiecePosition(UInt64 Pos, UInt64 LastPos, int index)
+    {
+        // Update piece bitboard
+        piecesBB[index - 1] |= Pos;
+        piecesBB[index - 1] &= ~LastPos;
+        
+        // Update position for all the board IMPORTANT
+        UpdatePosition();
     }
 
 }
