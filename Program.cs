@@ -86,6 +86,9 @@ internal class Program
             Raylib.UnloadTexture(texture);
 
         Raylib.CloseWindow();
+
+        Console.WriteLine("Thanks for playing");
+        Console.Clear();
     }
 
     static void DrawChessBoard()
