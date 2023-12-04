@@ -50,4 +50,8 @@ internal static class SetwiseFunctions
     // Gets the empty squares, doesn't work if the position wasn't updated.
     public static UInt64 GetEmptySquares()
         => ~Board.board;
+
+    // Gets the occupied squares, doesn't work if the position wasn't updated.
+    public static UInt64 GetOccupiedSquares()
+        => Board.board;
 }
