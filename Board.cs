@@ -104,12 +104,12 @@ internal class Board
     {
         BlackPieces = 0;
 
-        BlackPieces |=  piecesBB[Black + Pawns   - 1];
-        BlackPieces |=  piecesBB[Black + Knights - 1];
-        BlackPieces |=  piecesBB[Black + Bishops - 1];
-        BlackPieces |=  piecesBB[Black + Rooks   - 1];
-        BlackPieces |=  piecesBB[Black + Queen   - 1];
-        BlackPieces |=  piecesBB[Black + King    - 1];
+        BlackPieces |= piecesBB[Black + Pawns  - 1]
+                    | piecesBB[Black + Knights - 1]
+                    | piecesBB[Black + Bishops - 1]
+                    | piecesBB[Black + Rooks   - 1]
+                    | piecesBB[Black + Queen   - 1]
+                    | piecesBB[Black + King    - 1];
     }
 
     // Updates the position of all the white pieces.
@@ -117,12 +117,12 @@ internal class Board
     {
         WhitePieces = 0;
 
-        WhitePieces |= piecesBB[White + Pawns   - 1];
-        WhitePieces |= piecesBB[White + Knights - 1];
-        WhitePieces |= piecesBB[White + Bishops - 1];
-        WhitePieces |= piecesBB[White + Rooks   - 1];
-        WhitePieces |= piecesBB[White + Queen   - 1];
-        WhitePieces |= piecesBB[White + King    - 1];
+        WhitePieces |= piecesBB[White + Pawns   - 1]
+                     | piecesBB[White + Knights - 1]
+                     | piecesBB[White + Bishops - 1]
+                     | piecesBB[White + Rooks   - 1]
+                     | piecesBB[White + Queen   - 1]
+                     | piecesBB[White + King    - 1];
     }
 
     public static UInt64 GetPossibleMoves(UInt64 piece, int index)
@@ -132,22 +132,46 @@ internal class Board
             // White pawn
             case 1:
                 return PawnsFunctions.GetWPawnsMovement(piece);
-
-            // Black pawn
-            case 7:
-                return PawnsFunctions.GetBPawnsMovement(piece);
-
+            
             // White knight
             case 2:
                 return KnightsFunctions.GetKnightMovements(piece);
+
+            // White Bishop
+            case 3:
+                return BishopsFunctions.GetBishopsMovements(piece);
+
+            // White Rook
+            case 4: 
+                return RooksFunctions.GetRookMovements(piece);
+
+            // White Queen
+            case 5:
+                return QueensFunctions.GetQueenMovements(piece);
 
             // White king
             case 6:
                 return KingsFunctions.GetKingMovements(piece);
 
+            // Black pawn
+            case 7:
+                return PawnsFunctions.GetBPawnsMovement(piece);
+
             // Black knight
             case 8:
                 return KnightsFunctions.GetKnightMovements(piece);
+
+            // Black Bishop
+            case 9:
+                return BishopsFunctions.GetBishopsMovements(piece);
+
+            // Black Rook
+            case 10:
+                return RooksFunctions.GetRookMovements(piece);
+
+            // Black Queen
+            case 11:
+                return QueensFunctions.GetQueenMovements(piece);
 
             // Black king
             case 12:
