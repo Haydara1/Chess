@@ -15,3 +15,14 @@ problem fixed.
 - So now the board class has the bitboard and the mailbox representation methods.
 The mailbox will be useful for making movements.
 The bitboard is useful for calculating those movements.
+
+- Now I need to understand the Least significant one and the most significant one to be 
+able to code the logic for the sliding pieces movements.
+
+# Explication
+	In computing, the least significant bit (LSb) is the bit position in a binary integer representing the binary 1s place of the integer. 
+	Similarly, the most significant bit (MSb) represents the highest-order place of the binary integer. 
+	The LSb is sometimes referred to as the low-order bit or right-most bit,
+	due to the convention in positional notation of writing less significant digits further to the right.
+	The MSb is similarly referred to as the high-order bit or left-most bit. In both cases, 
+	the LSb and MSb correlate directly to the least significant digit and most significant digit of a decimal integer.
