@@ -6,8 +6,7 @@
 // 1. Take the ray attack from each direction.
 // 2. Intersect the attack with occupied pieces.
 // 3. Bitscan to the LSB or the MSB depending on the direction.
-// 4. Exclusif or the attack and the attack of the same direction from the result of the bitscann.
-
+// 4. Exclusif or the attack and the attack of the same direction from the result of the bitscan.
 
 using static SetwiseFunctions;
 
@@ -19,15 +18,9 @@ internal class RooksFunctions
         UInt64 movements = 0;
 
         // Assign movements to the north direction until the end of the board
-        for(int i = 0; i < 8; i++)
+        for(int i = 1; i < 8; i++)
             movements |= rook << (i * 8);
-
-        UInt64 blocker = movements & GetOccupiedSquares();
-
-        // Checks if there is a blocker
-        if (blocker != 0)
-            return 0; // temporarly
-
+       
         return movements;
     }
 
@@ -35,7 +28,7 @@ internal class RooksFunctions
     {
         UInt64 movements = 0;
 
-        for (int i = 0; i < 8; i++)
+        for (int i = 1; i < 8; i++)
             movements |= rook >> (i * 8);
 
         return movements;
@@ -45,22 +38,56 @@ internal class RooksFunctions
     {
         UInt64 movements = 0;
 
-        for (int i = 0; i < 8; i++)
+        for (int i = 1; i < 8; i++)
             movements |= rook << i;
 
-        return movements;
+        return movements & getRank(rook);
     }
 
     static private UInt64 WestMovements(UInt64 rook)
     {
         UInt64 movements = 0;
 
-        for (int i = 0; i < 8; i++)
+        for (int i = 1; i < 8; i++)
             movements |= rook >> i;
 
-        return movements;
+        return movements & getRank(rook);
+    }
+
+    static private UInt64 getRank(UInt64 x)
+    {
+       int pow = (int)Math.Log2(x);
+       pow = ((int)pow / 8) * 8;
+        
+       return (ulong)(Math.Pow(2, pow) + Math.Pow(2, pow + 1) + Math.Pow(2, pow + 2)
+            + Math.Pow(2, pow + 3) + Math.Pow(2, pow + 4) + Math.Pow(2, pow + 5) 
+            + Math.Pow(2, pow + 6) + Math.Pow(2, pow + 7));
     }
 
     static public UInt64 GetRookMovements(UInt64 rook)
-        => 0;
+    {
+        UInt64 NMovements = NorthMovements(rook);
+        UInt64 SMovements = SouthMovements(rook);
+        UInt64 WMovements = WestMovements(rook);
+        UInt64 EMovements = EastMovements(rook);
+
+        UInt64 NBlocker = NMovements & GetOccupiedSquares();
+        UInt64 SBlocker = SMovements & GetOccupiedSquares();
+        UInt64 WBlocker = WMovements & GetOccupiedSquares();
+        UInt64 EBlocker = EMovements & GetOccupiedSquares();
+
+        if (NBlocker != 0)
+            NMovements ^= NorthMovements(GetLSB(NBlocker)) | NBlocker;
+
+        if (SBlocker != 0)
+            SMovements ^= SouthMovements(GetMSB(SBlocker)) | SBlocker;
+
+        if (WBlocker != 0)
+            WMovements ^= WestMovements(GetLSB(WBlocker)) | WBlocker;
+
+        if (EBlocker != 0)
+            EMovements ^= EastMovements(GetMSB(EBlocker)) | EBlocker;
+
+        return NMovements | SMovements | WMovements | EMovements;
+    }
 }
