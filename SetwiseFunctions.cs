@@ -54,4 +54,13 @@ internal static class SetwiseFunctions
     // Gets the occupied squares, doesn't work if the position wasn't updated.
     public static UInt64 GetOccupiedSquares()
         => Board.board;
+
+    // Implement functions to find the LSB and the MSB
+
+    public static UInt64 GetLSB(UInt64 x)
+        => x & ~x + 1;
+
+    public static UInt64 GetMSB(UInt64 x)
+        => (ulong)Math.Pow(2, Convert.ToString((long)x, 2).Length - 1);
+    
 }
