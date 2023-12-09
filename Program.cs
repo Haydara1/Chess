@@ -87,8 +87,9 @@ internal class Program
 
         Raylib.CloseWindow();
 
-        Console.WriteLine("Thanks for playing");
         Console.Clear();
+        Console.WriteLine("Thanks for playing");
+        
     }
 
     static void DrawChessBoard()
