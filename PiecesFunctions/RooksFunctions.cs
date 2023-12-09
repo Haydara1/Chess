@@ -76,17 +76,11 @@ internal class RooksFunctions
         UInt64 WBlocker = WMovements & GetOccupiedSquares();
         UInt64 EBlocker = EMovements & GetOccupiedSquares();
 
-        if (NBlocker != 0)
-            NMovements ^= NorthMovements(GetLSB(NBlocker)) | NBlocker;
-
-        if (SBlocker != 0)
-            SMovements ^= SouthMovements(GetMSB(SBlocker)) | SBlocker;
-
-        if (WBlocker != 0)
-            WMovements ^= WestMovements(GetLSB(WBlocker)) | WBlocker;
-
-        if (EBlocker != 0)
-            EMovements ^= EastMovements(GetMSB(EBlocker)) | EBlocker;
+        
+        NMovements ^= NorthMovements(GetLSB(NBlocker)) | NBlocker;
+        SMovements ^= SouthMovements(GetMSB(SBlocker)) | SBlocker;
+        WMovements ^= WestMovements(GetMSB(WBlocker)) | WBlocker;
+        EMovements ^= EastMovements(GetLSB(EBlocker)) | EBlocker;
 
         return NMovements | SMovements | WMovements | EMovements;
     }
