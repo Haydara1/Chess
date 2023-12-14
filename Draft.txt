@@ -26,3 +26,5 @@ able to code the logic for the sliding pieces movements.
 	due to the convention in positional notation of writing less significant digits further to the right.
 	The MSb is similarly referred to as the high-order bit or left-most bit. In both cases, 
 	the LSb and MSb correlate directly to the least significant digit and most significant digit of a decimal integer.
+
+I finished writing the code for the movements, now time to write it for the eating.

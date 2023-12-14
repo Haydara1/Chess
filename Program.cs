@@ -37,6 +37,9 @@ internal class Program
     static int LastPiece = 0;
     static int LastIndex = 0;
 
+    // 0: white's turn, 1: black's turn
+    static short turn = 0;
+
     static void Main()
     {
         Raylib.InitWindow(1080, 920, "Chess");
@@ -262,6 +265,12 @@ internal class Program
             return;
         }
 
+        // Checks if this color should be played
+        if (turn == 0)
+            PiecePos &= Board.WhitePieces;
+        else
+            PiecePos &= Board.BlackPieces;
+
         LastIndex = (int)MousePos.Y * 8 + (int)MousePos.X;
         LastPos = PiecePos;
         LastPiece = index;
@@ -283,5 +292,8 @@ internal class Program
 
         // Update the bitboards
         UpdatePiecePosition(pos, LastPos, piece_index);
+
+        // Update the turn
+        turn ^= 1;
     }
 }
