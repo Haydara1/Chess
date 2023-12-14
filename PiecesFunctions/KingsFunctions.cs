@@ -12,6 +12,7 @@ internal class KingsFunctions
         UInt64 attacks = EastOne(king) | WestOne(king);
         king |= attacks;
         attacks |= NorthOne(king) | SouthOne(king);
-        return attacks & GetEmptySquares();
+        return attacks & (GetEmptySquares() | (Convert.ToBoolean(Program.turn) 
+            ? Board.WhitePieces : Board.BlackPieces));
     }
 }
