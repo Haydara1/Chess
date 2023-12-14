@@ -290,6 +290,20 @@ internal class Program
         MailboxBoard[index] = piece_index;
         MailboxBoard[LastIndex] = 0;
 
+        #region turn off the bit in the opposing color
+
+        // Determine first the color
+        int color = Convert.ToBoolean(turn) ? Board.White : Board.Black;
+
+        // Get the eating bit
+        UInt64 bit = (ulong)Math.Pow(2, 63 - index);
+
+        // remove this bit from all the opposing pieces
+        for (int i = Board.Pawns; i <= Board.King; i++)
+            Board.piecesBB[color + i - 1] &= ~bit;
+
+        #endregion
+
         // Update the bitboards
         UpdatePiecePosition(pos, LastPos, piece_index);
 
