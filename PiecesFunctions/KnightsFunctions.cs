@@ -45,10 +45,8 @@ internal class KnightsFunctions
 
     // Group them all in this function
     public static UInt64 GetKnightMovements(UInt64 knight)
-        => (NoNoEa(knight) | NoNoWe(knight) |
-            SoSoEa(knight) | SoSoWe(knight) |
-            EaEaNo(knight) | EaEaSo(knight) |
-            WeWeNo(knight) | WeWeSo(knight) )
-        & GetEmptySquares();
+        => (NoNoEa(knight) | NoNoWe(knight) | SoSoEa(knight) | SoSoWe(knight) |
+            EaEaNo(knight) | EaEaSo(knight) | WeWeNo(knight) | WeWeSo(knight) )
+        & (GetEmptySquares() | (Convert.ToBoolean(Program.turn) ? Board.WhitePieces : Board.BlackPieces));
     
 }
