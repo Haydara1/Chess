@@ -38,7 +38,7 @@ internal class Program
     static int LastIndex = 0;
 
     // 0: white's turn, 1: black's turn
-    static short turn = 0;
+    public static short turn = 0;
 
     static void Main()
     {
