@@ -1,5 +1,7 @@
 ﻿// https://www.chessprogramming.org/Bitboard_Board-Definition
 
+using Chess.Functions;
+using Raylib_cs;
 using System;
 
 namespace Chess;
@@ -192,6 +194,10 @@ internal class Board
         
         // Update position for all the board IMPORTANT
         UpdatePosition();
+
+        if (SquareAttackedBy.isSquareAttacked(piecesBB[(Program.turn == 1 ? 0 : 6) + King - 1],
+                                                        Program.turn))
+            Console.WriteLine("Check!");
     }
 
 }
