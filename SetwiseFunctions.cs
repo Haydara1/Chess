@@ -61,6 +61,10 @@ internal static class SetwiseFunctions
         => x & ~x + 1;
 
     public static UInt64 GetMSB(UInt64 x)
-        => (ulong)Math.Pow(2, Convert.ToString((long)x, 2).Length - 1);
+    { 
+        if (x == 0)
+            return 0;   
+        return (ulong)Math.Pow(2, Convert.ToString((long)x, 2).Length - 1); 
+    }
     
 }
