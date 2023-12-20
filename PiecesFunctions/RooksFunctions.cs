@@ -79,9 +79,13 @@ internal class RooksFunctions
         
         NMovements ^= NorthMovements(GetLSB(NBlocker)) | NBlocker;
         SMovements ^= SouthMovements(GetMSB(SBlocker)) | SBlocker;
-        WMovements ^= WestMovements(GetMSB(WBlocker)) | WBlocker;
-        EMovements ^= EastMovements(GetLSB(EBlocker)) | EBlocker;
+        WMovements ^= WestMovements(GetMSB(WBlocker))  | WBlocker;
+        EMovements ^= EastMovements(GetLSB(EBlocker))  | EBlocker;
 
-        return NMovements | SMovements | WMovements | EMovements;
+        // Add the blockers from the opposing color
+        UInt64 Blockers = GetLSB(NBlocker) | GetMSB(SBlocker) | GetMSB(WBlocker) | GetLSB(EBlocker);
+        Blockers &= Convert.ToBoolean(Program.turn) ? Board.WhitePieces : Board.BlackPieces;
+
+        return NMovements | SMovements | WMovements | EMovements | Blockers;
     }
 }

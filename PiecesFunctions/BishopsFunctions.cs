@@ -68,12 +68,15 @@ internal class BishopsFunctions
         UInt64 NWBlocker = NWMovements & GetOccupiedSquares();
         UInt64 SWBlocker = SWMovements & GetOccupiedSquares();
 
-        
         NEMovements ^= NorthEastMovements(GetLSB(NEBlocker)) | NEBlocker;
         SEMovements ^= SouthEastMovements(GetMSB(SEBlocker)) | SEBlocker;
         NWMovements ^= NorthWestMovements(GetLSB(NWBlocker)) | NWBlocker;
         SWMovements ^= SouthWestMovements(GetMSB(SWBlocker)) | SWBlocker;
 
-        return NWMovements | NEMovements | SWMovements| SEMovements;
+
+        UInt64 Blockers = GetLSB(NEBlocker) | GetMSB(SEBlocker) | GetLSB(NWBlocker) | GetMSB(SWBlocker);
+        Blockers &= Convert.ToBoolean(Program.turn) ? Board.WhitePieces : Board.BlackPieces;
+
+        return NWMovements | NEMovements | SWMovements| SEMovements | Blockers;
     }
 }
