@@ -28,3 +28,6 @@ able to code the logic for the sliding pieces movements.
 	the LSb and MSb correlate directly to the least significant digit and most significant digit of a decimal integer.
 
 I finished writing the code for the movements, now time to write it for the eating.
+Removing the piece was kinda hard, I wonder how I can display the piece the player took in the most efficient way.
+
+Now coding a function to get if a sqaure is attacked by another piece.
