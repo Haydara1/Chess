@@ -1,6 +1,5 @@
 ﻿namespace Chess.Functions;
 
-using System.Security.Principal;
 using static Board;
 
 internal class SquareAttackedBy
@@ -27,14 +26,18 @@ internal class SquareAttackedBy
         if ((QueensFunctions.GetQueenMovements(piecesBB[color + Queen - 1]) & sq) != 0)
             return true;
 
+        // Check for kings
+        if ((KingsFunctions.GetAllKingMovements(piecesBB[color + King - 1]) & sq) != 0)
+            return true;
+
         // Lastly check for pawns
         if (side == 0)
         {
-            if ((PawnsFunctions.wEat(piecesBB[color + Pawns - 1]) & sq) != 0)
+            if ((PawnsFunctions.wAllEat(piecesBB[color + Pawns - 1]) & sq) != 0)
                 return true;
         }
         else
-            if ((PawnsFunctions.bEat(piecesBB[color + Pawns - 1]) & sq) != 0)
+            if ((PawnsFunctions.bAllEat(piecesBB[color + Pawns - 1]) & sq) != 0)
                 return true;
 
         return false;
