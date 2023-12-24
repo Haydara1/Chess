@@ -197,7 +197,9 @@ internal class Board
 
         if (SquareAttackedBy.isSquareAttacked(piecesBB[(Program.turn == 1 ? 0 : 6) + King - 1],
                                                         Program.turn))
-            Console.WriteLine("Check!");
+            Raylib.PlaySound(Program.SCheck);
+        else
+            Raylib.PlaySound(Program.SMove);
     }
 
 }
