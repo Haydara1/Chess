@@ -20,15 +20,26 @@ internal class PawnsFunctions
     //Gets the square in the north of pawns, intersected with empty squares in the fourth rank.
 
     // Returns one only if there is a black piece on the north west of the pawn
-    static public UInt64 wLeftEat(UInt64 pawns)
+    static private UInt64 wLeftEat(UInt64 pawns)
         => NorthOne(WestOne(pawns)) & Board.BlackPieces;
 
     // Returns one only if there is a black piece on the north east of the pawn
-    static public UInt64 wRightEat(UInt64 pawns)
+    static private UInt64 wRightEat(UInt64 pawns)
         => NorthOne(EastOne(pawns)) & Board.BlackPieces;
 
     static public UInt64 wEat(UInt64 pawns)
         => wLeftEat(pawns) | wRightEat(pawns);
+
+    // Return the attack
+    static private UInt64 wAllLeftEat(UInt64 pawns)
+        => NorthOne(WestOne(pawns));
+
+    // Returns the attack
+    static private UInt64 wAllRightEat(UInt64 pawns)
+        => NorthOne(EastOne(pawns));
+
+    static public UInt64 wAllEat(UInt64 pawns)
+        => wAllLeftEat(pawns) | wAllRightEat(pawns);
 
     #endregion
 
@@ -51,6 +62,17 @@ internal class PawnsFunctions
 
     static public UInt64 bEat(UInt64 pawns)
         => bLeftEat(pawns) | bRightEat(pawns);
+
+    // Returns the attack
+    static public UInt64 bAllLeftEat(UInt64 pawns)
+        => SouthOne(WestOne(pawns));
+
+    // Returns the attack
+    static public UInt64 bAllRightEat(UInt64 pawns)
+        => SouthOne(EastOne(pawns));
+
+    static public UInt64 bAllEat(UInt64 pawns)
+        => bAllLeftEat(pawns) | bAllRightEat(pawns);
 
     #endregion
 
