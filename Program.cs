@@ -29,6 +29,14 @@ internal class Program
 
     static Texture2D[] textures = new Texture2D[12];
 
+    #region Sound effects
+    public static Sound SMove;
+    public static Sound SCheck;
+    public static Sound SCapture;
+    public static Sound SPromote;
+    public static Sound SNotify;
+    #endregion
+
     // The variable to display the possible movements
     static UInt64 PossibleMovements = 0;
 
@@ -42,12 +50,13 @@ internal class Program
 
     static void Main()
     {
-        Raylib.InitWindow(1080, 920, "Chess");
-        Board.InitPieces(); // Initializes the position.
+        Raylib.InitWindow(1080, 920, "Chess");  // Initializes the window.
+        Raylib.InitAudioDevice();               // Initializes the audio.
+        InitPieces();                           // Initializes the position.
 
         Console.Title = "Chess console";
         
-        //Textures loading
+        // Textures loading
         textures[0]  = Raylib.LoadTexture("C:\\Users\\hayda\\source\\repos\\Chess\\Pieces\\WP.png");
         textures[1]  = Raylib.LoadTexture("C:\\Users\\hayda\\source\\repos\\Chess\\Pieces\\BP.png");
         textures[2]  = Raylib.LoadTexture("C:\\Users\\hayda\\source\\repos\\Chess\\Pieces\\WN.png");
@@ -60,6 +69,13 @@ internal class Program
         textures[9]  = Raylib.LoadTexture("C:\\Users\\hayda\\source\\repos\\Chess\\Pieces\\BQ.png");
         textures[10] = Raylib.LoadTexture("C:\\Users\\hayda\\source\\repos\\Chess\\Pieces\\WK.png");
         textures[11] = Raylib.LoadTexture("C:\\Users\\hayda\\source\\repos\\Chess\\Pieces\\BK.png");
+
+        // Sound effects loading
+        SMove    = Raylib.LoadSound("C:\\Users\\hayda\\source\\repos\\Chess\\Sounds\\move-self.mp3");
+        SCheck   = Raylib.LoadSound("C:\\Users\\hayda\\source\\repos\\Chess\\Sounds\\move-check.mp3");
+        SPromote = Raylib.LoadSound("C:\\Users\\hayda\\source\\repos\\Chess\\Sounds\\promote.mp3");
+        SCapture = Raylib.LoadSound("C:\\Users\\hayda\\source\\repos\\Chess\\Sounds\\capture.mp3");
+        SNotify  = Raylib.LoadSound("C:\\Users\\hayda\\source\\repos\\Chess\\Sounds\\notify.mp3");
 
         Console.Clear();
 
@@ -76,10 +92,6 @@ internal class Program
 
             if (Raylib.IsMouseButtonPressed(0))
                 MouseButtonPressed();
-            else if (Raylib.IsKeyPressed(KeyboardKey.KEY_EQUAL))
-                UpdateWidth(10);
-            else if (Raylib.IsKeyPressed(KeyboardKey.KEY_MINUS))
-                UpdateWidth(-10);
 
             Raylib.EndDrawing();
         }
@@ -88,6 +100,15 @@ internal class Program
         foreach(Texture2D texture in textures)
             Raylib.UnloadTexture(texture);
 
+        // Unload sounds
+        Raylib.UnloadSound(SMove);
+        Raylib.UnloadSound(SCheck);
+        Raylib.UnloadSound(SCapture);
+        Raylib.UnloadSound(SPromote);
+        Raylib.UnloadSound(SNotify);
+
+        // Close devices
+        Raylib.CloseAudioDevice();
         Raylib.CloseWindow();
 
         Console.Clear();
@@ -135,23 +156,23 @@ internal class Program
         UInt64[] pieces = Board.GetPiecesBB();
 
         //Get pieces bitboards
-        string WPawns   = CvrtString(pieces[Board.White + Board.Pawns - 1]); 
-        string BPawns   = CvrtString(pieces[Board.Black + Board.Pawns - 1]);
-                                                                                                              
-        string WKnight  = CvrtString(pieces[Board.White + Board.Knights - 1]);
-        string BKnight  = CvrtString(pieces[Board.Black + Board.Knights - 1]);
-                                                                                                              
-        string WBishops = CvrtString(pieces[Board.White + Board.Bishops - 1]);
-        string BBishops = CvrtString(pieces[Board.Black + Board.Bishops - 1]);
-                                                                                                               
-        string WRooks   = CvrtString(pieces[Board.White + Board.Rooks - 1]);
-        string BRooks   = CvrtString(pieces[Board.Black + Board.Rooks - 1]);
-                                                                                                               
-        string WQueen   = CvrtString(pieces[Board.White + Board.Queen - 1]);
-        string BQueen   = CvrtString(pieces[Board.Black + Board.Queen - 1]);
-                                                                                                               
-        string WKing    = CvrtString(pieces[Board.White + Board.King - 1]);
-        string BKing    = CvrtString(pieces[Board.Black + Board.King - 1]);
+        string WPawns   = CvrtString(pieces[Board.White + Pawns - 1]); 
+        string BPawns   = CvrtString(pieces[Board.Black + Pawns - 1]);
+                                                                                                        
+        string WKnight  = CvrtString(pieces[Board.White + Knights - 1]);
+        string BKnight  = CvrtString(pieces[Board.Black + Knights - 1]);
+                                                                                                        
+        string WBishops = CvrtString(pieces[Board.White + Bishops - 1]);
+        string BBishops = CvrtString(pieces[Board.Black + Bishops - 1]);
+                                                                                                         
+        string WRooks   = CvrtString(pieces[Board.White + Rooks - 1]);
+        string BRooks   = CvrtString(pieces[Board.Black + Rooks - 1]);
+                                                                                                         
+        string WQueen   = CvrtString(pieces[Board.White + Queen - 1]);
+        string BQueen   = CvrtString(pieces[Board.Black + Queen - 1]);
+                                                                                                         
+        string WKing    = CvrtString(pieces[Board.White + King - 1]);
+        string BKing    = CvrtString(pieces[Board.Black + King - 1]);
 
 
         // Display the pieces depending on the bits
@@ -276,12 +297,6 @@ internal class Program
         LastPiece = index;
 
         PossibleMovements = GetPossibleMoves(PiecePos, index);
-    }
-
-    static void UpdateWidth(int number)
-    {
-        width += number;
-        ratio = width / 100;
     }
 
     static void MovePiece(UInt64 pos, int piece_index, int index)
